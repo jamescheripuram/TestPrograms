@@ -1,10 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
-using System.Text.RegularExpressions;
+
+/*=================================================================================================================== 
+This Console application Takes as a parameter a string that represents a text file containing a list of names, and their scores.
+Orders the names by their score. If scores are the same, order by their last name followed by first name.
+Creates a new text file called <input-file- name>-graded.txt with the list of sorted score and names.
+
+For example, if the input file contains:
+
+BUNDY, TERESSA, 88
+
+SMITH, ALLAN, 70
+
+KING, MADISON, 88
+
+SMITH, FRANCIS, 85
+
+
+Then the output file would be:
+
+BUNDY, TERESSA, 88
+
+KING, MADISON, 88
+
+SMITH, FRANCIS, 85
+
+SMITH, ALLAN, 70
+=====================================================================================================================*/
 
 namespace Grade_Scores
 {
@@ -13,21 +37,21 @@ namespace Grade_Scores
         static void Main(string[] args)
         {
 
-            //if (args.Length != 1)
-            //{
-            //    Console.WriteLine("Invalid number of arguments ! Enter the path of text file to sort..");
-            //    return;
-            //}
-            // string path = args[0];
-
-            string path = @"C:\James\names.txt";
+            if (args.Length != 1)
+            {
+                Console.WriteLine("Invalid number of arguments ! Enter the path of text file to sort..");
+                return;
+            }
+            string path = args[0];
             SortProgram sortProgram = new SortProgram();
             sortProgram.sortTextFile(path);
         }
 
-//---------------------------------------------------------------------------------------------------------
-        //This function splits each line of the text file and store the values in an array.
-        //Returns true on success.
+/*---------------------------------------------------------------------------------------------------------
+        This function splits each line of the text file and store the values in a two dimensional array.
+        Paramentes: String array with lines copied from text file | two dimensional array to store all parsed values.
+        Returns true on success.
+----------------------------------------------------------------------------------------------------------*/
         public bool splitAndValidateLines(string[] lines, string[,] dataArray)
         {
 
@@ -49,9 +73,11 @@ namespace Grade_Scores
 
             return true;
         }
-//--------------------------------------------------------------------------------------------------------------
-
-        //Function to sort the contents of the text file
+/*--------------------------------------------------------------------------------------------------------------
+        Function to sort the contents of the text file
+        Parameters: File path which is recieved as a command line argument.
+        Returns true on success
+--------------------------------------------------------------------------------------------------------------*/
         public bool  sortTextFile(string path)
         {
             bool success = false;
@@ -69,11 +95,12 @@ namespace Grade_Scores
 
 
                 bool didSwap;
-                do
+                do //Start of while loop.
                 {
                     didSwap = false;
                     for (int i = 0; i < linescount - 1; i++)
                     {
+                        //Compare the scores and sort the array elements accordingly.
                         if (Convert.ToInt32(dataArray[i, 2]) < Convert.ToInt32(dataArray[i + 1, 2]))
                         {
                             for (int j = 0; j < 3; j++)
@@ -84,6 +111,7 @@ namespace Grade_Scores
                             }
                             didSwap = true;
                         }
+                        //If the scores are equal, sort according to the last name.
                         else if (Convert.ToInt32(dataArray[i, 2]) == Convert.ToInt32(dataArray[i + 1, 2]))
                         {
                             if (string.Compare(dataArray[i, 0], dataArray[i + 1, 0]) == 1)
@@ -97,6 +125,7 @@ namespace Grade_Scores
 
                                 didSwap = true;
                             }
+                            //If last names are same, sort according to the first name.
                             else if (string.Compare(dataArray[i, 0], dataArray[i + 1, 0]) == 0)
                             {
                                 if (string.Compare(dataArray[i, 1], dataArray[i + 1, 1]) == 1)
@@ -111,19 +140,22 @@ namespace Grade_Scores
                             }
                         }
                     }
-                } while (didSwap);
+                } while (didSwap); //End of while loop.
 
                 Console.WriteLine("graded-scores " + path);
 
                 for (int i = 0; i < linescount; i++)
                 {
                     lines[i] = String.Concat(dataArray[i, 0], ", ", dataArray[i, 1], ", ", dataArray[i, 2]);
+                    //Display the sorted lines on Console.
                     Console.WriteLine(lines[i]);
                 }
-
+                //Write the sorted lines to the file.
+                var newpath = Path.GetDirectoryName(path) + "\\graded.txt";
+                // System.IO.File.WriteAllLines(@"C:\James\graded.txt", lines);
+                System.IO.File.WriteAllLines(newpath, lines);
                 Console.WriteLine("Finished created names-graded.txt");
-
-                System.IO.File.WriteAllLines(@"C:\James\graded.txt", lines);
+                
                 success = true;
 
             }
