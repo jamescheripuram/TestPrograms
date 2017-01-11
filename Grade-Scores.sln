@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Grade-Scores", "Grade-Scores\Grade-Scores.csproj", "{F5B7E09D-57F0-4B13-9989-C1D25C3DBEE1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Grade-Scores.Tests", "Grade-ScoresTest\Grade-Scores.Tests.csproj", "{647CA998-6340-4A7D-A6DC-FADBF22E8CC9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F5B7E09D-57F0-4B13-9989-C1D25C3DBEE1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F5B7E09D-57F0-4B13-9989-C1D25C3DBEE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F5B7E09D-57F0-4B13-9989-C1D25C3DBEE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F5B7E09D-57F0-4B13-9989-C1D25C3DBEE1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{647CA998-6340-4A7D-A6DC-FADBF22E8CC9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{647CA998-6340-4A7D-A6DC-FADBF22E8CC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{647CA998-6340-4A7D-A6DC-FADBF22E8CC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{647CA998-6340-4A7D-A6DC-FADBF22E8CC9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
