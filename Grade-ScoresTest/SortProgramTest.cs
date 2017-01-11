@@ -43,6 +43,13 @@ namespace Grade_Scores.Tests
             Assert.IsTrue(!testgrade.sortTextFile(@"   "));
         }
 
+        [TestMethod]
+        public void shouldFailIfNotTextFile()
+        {
+            SortProgram testgrade = new SortProgram();
+            Assert.IsTrue(!testgrade.sortTextFile(@"abcd.mp3"));
+        }
+
     }
 
 }

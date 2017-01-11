@@ -80,17 +80,32 @@ namespace Grade_Scores
 --------------------------------------------------------------------------------------------------------------*/
         public bool  sortTextFile(string path)
         {
-            bool success = false;
+            bool result = false;
 
             try
             {
+             string ext = Path.GetExtension(path);
+            //file extension should be ".txt"
+            if (ext != ".txt")
+            {
+                Console.WriteLine("Invalid file...Provide the data in a text file(.txt)");
+                return result;
+            }
+            var filesize = new FileInfo(path).Length;
+            if (filesize == 0)
+            {
+                Console.WriteLine("The data file is empty!, Provide a valid datafile");
+                return result;
+            }
+
+         
                 var lines = File.ReadAllLines(path);
                 int linescount = lines.Count();
                 string[,] dataArray = new string[linescount, 3];
 
                 if (!splitAndValidateLines(lines, dataArray))
                 {
-                    return success;
+                    return result;
                 }
 
 
@@ -136,6 +151,8 @@ namespace Grade_Scores
                                         dataArray[i + 1, j] = dataArray[i, j];
                                         dataArray[i, j] = temp;
                                     }
+
+                                    didSwap = true;
                                 }
                             }
                         }
@@ -150,34 +167,33 @@ namespace Grade_Scores
                     //Display the sorted lines on Console.
                     Console.WriteLine(lines[i]);
                 }
-                //Write the sorted lines to the file.
-                var newpath = Path.GetDirectoryName(path) + "\\graded.txt";
-                // System.IO.File.WriteAllLines(@"C:\James\graded.txt", lines);
+                //Write the sorted lines to the file <input-file- name>-graded.txt
+                var newpath = Path.GetDirectoryName(path) + "\\" + Path.GetFileNameWithoutExtension(path)+"-graded.txt";
                 System.IO.File.WriteAllLines(newpath, lines);
-                Console.WriteLine("Finished created names-graded.txt");
-                
-                success = true;
+                Console.WriteLine("Finished: created {0} ", Path.GetFileNameWithoutExtension(path) + "-graded.txt");
+
+                result = true;
 
             }
 
-
-
             catch (FormatException)
-            { Console.WriteLine("The entries in the text file are not in the proper format, please check and retry"); return success; }
+            { Console.WriteLine("The entries in the text file are not in the proper format, please check and retry"); return result; }
             catch (ArgumentException)
-            { Console.WriteLine("File path is a zero-length string, contains only white space, or contains one or more invalid characters"); return success; }
+            { Console.WriteLine("File path is a zero-length string, contains only white space, or contains one or more invalid characters"); return result; }
             catch (PathTooLongException)
-            { Console.WriteLine("The specified path, file name, or both exceed the system-defined maximum length"); return success; }
+            { Console.WriteLine("The specified path, file name, or both exceed the system-defined maximum length"); return result; }
             catch (DirectoryNotFoundException)
-            { Console.WriteLine("The specified path is invalid "); return success; }
+            { Console.WriteLine("The specified path is invalid, give full path of the text file "); return result; }
             catch (FileNotFoundException)
-            { Console.WriteLine("The file specified in path was not found."); return success; }
+            { Console.WriteLine("The file specified in path was not found, give full path of the text file."); return result; }
             catch (IOException)
-            { Console.WriteLine("An I/O error occurred while opening the file. "); return success; }
+            { Console.WriteLine("An I/O error occurred while opening the file. "); return result; }
             catch (NotSupportedException)
-            { Console.WriteLine("File path is an invalid format "); return success; }
+            { Console.WriteLine("File path is in invalid format "); return result; }
+            catch (UnauthorizedAccessException)
+            { Console.WriteLine("No permission to access the file for Read/Write, give full path of the text file "); return result; }
 
-            return success;
+            return result;
         }
              
       
