@@ -25,6 +25,9 @@ namespace Grade_Scores
             sortProgram.sortTextFile(path);
         }
 
+//---------------------------------------------------------------------------------------------------------
+        //This function splits each line of the text file and store the values in an array.
+        //Returns true on success.
         public bool splitAndValidateLines(string[] lines, string[,] dataArray)
         {
 
@@ -46,18 +49,22 @@ namespace Grade_Scores
 
             return true;
         }
+//--------------------------------------------------------------------------------------------------------------
 
-
-        public void sortTextFile(string path)
+        //Function to sort the contents of the text file
+        public bool  sortTextFile(string path)
         {
-            try {
+            bool success = false;
+
+            try
+            {
                 var lines = File.ReadAllLines(path);
                 int linescount = lines.Count();
                 string[,] dataArray = new string[linescount, 3];
 
                 if (!splitAndValidateLines(lines, dataArray))
                 {
-                    return;
+                    return success;
                 }
 
 
@@ -117,12 +124,30 @@ namespace Grade_Scores
                 Console.WriteLine("Finished created names-graded.txt");
 
                 System.IO.File.WriteAllLines(@"C:\James\graded.txt", lines);
+                success = true;
+
             }
 
+
+
             catch (FormatException)
-            { Console.WriteLine("The entries in the text file are not in the proper format, please check and retry"); }
+            { Console.WriteLine("The entries in the text file are not in the proper format, please check and retry"); return success; }
+            catch (ArgumentException)
+            { Console.WriteLine("File path is a zero-length string, contains only white space, or contains one or more invalid characters"); return success; }
+            catch (PathTooLongException)
+            { Console.WriteLine("The specified path, file name, or both exceed the system-defined maximum length"); return success; }
+            catch (DirectoryNotFoundException)
+            { Console.WriteLine("The specified path is invalid "); return success; }
+            catch (FileNotFoundException)
+            { Console.WriteLine("The file specified in path was not found."); return success; }
+            catch (IOException)
+            { Console.WriteLine("An I/O error occurred while opening the file. "); return success; }
+            catch (NotSupportedException)
+            { Console.WriteLine("File path is an invalid format "); return success; }
 
-
+            return success;
         }
+             
+      
     }
 }
